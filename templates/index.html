@@ -32,7 +32,7 @@
     >
 
     <button id="generateButton">Generate</button>
-
+    <p id="errorMessage"></p>
     <img id="resultImage">
 
     <script>
@@ -41,7 +41,7 @@
         const seedInput = document.getElementById("seed");
         const stepsInput = document.getElementById("steps");
         const resultImage = document.getElementById("resultImage");
-
+        const errorMessage = document.getElementById("errorMessage");
         button.addEventListener("click", async function() {
             const prompt = promptInput.value;
             const seed = Number(seedInput.value);
@@ -60,10 +60,14 @@
             });
 
         const data = await response.json();
-        resultImage.src = "/" + data.image_path;
 
-        console.log(data);
-});
+        if (!response.ok) {
+            errorMessage.textContent = "Generation failed";
+            return;
+        }
+
+        resultImage.src = "/" + data.image_path;
+        });
     </script>
 </body>
 </html>
