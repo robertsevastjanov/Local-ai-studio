@@ -9,30 +9,43 @@
     <p>My local AI image generator</p>
 
     <label for="prompt">Prompt:</label>
-
     <input
         type="text"
         id="prompt"
         placeholder="Describe an image..."
-        <label for="seed">Seed:</label>
+    >
 
-        <input
-            type="number"
-            id="seed"
-            value="42"
-        >
+    <label for="seed">Seed:</label>
+    <input
+        type="number"
+        id="seed"
+        value="42"
+    >
+
+    <label for="steps">Steps:</label>
+    <input
+        type="number"
+        id="steps"
+        value="8"
+        min="1"
+        max="30"
+    >
 
     <button id="generateButton">Generate</button>
+
     <img id="resultImage">
+
     <script>
         const button = document.getElementById("generateButton");
         const promptInput = document.getElementById("prompt");
         const seedInput = document.getElementById("seed");
+        const stepsInput = document.getElementById("steps");
         const resultImage = document.getElementById("resultImage");
 
         button.addEventListener("click", async function() {
             const prompt = promptInput.value;
             const seed = Number(seedInput.value);
+            const steps = Number(stepsInput.value);
 
             const response = await fetch("/generate", {
                 method: "POST",
@@ -41,7 +54,7 @@
                 },
                 body: JSON.stringify({
                     prompt: prompt,
-                    steps: 8,
+                    steps: steps,
                     seed: seed
                 })
             });
