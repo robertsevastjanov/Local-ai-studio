@@ -17,10 +17,11 @@
     >
 
     <button id="generateButton">Generate</button>
-
+    <img id="resultImage">
     <script>
         const button = document.getElementById("generateButton");
         const promptInput = document.getElementById("prompt");
+        const resultImage = document.getElementById("resultImage");
 
         button.addEventListener("click", async function() {
             const prompt = promptInput.value;
@@ -38,6 +39,7 @@
             });
 
         const data = await response.json();
+        resultImage.src = "/" + data.image_path;
 
         console.log(data);
 });
