@@ -14,17 +14,25 @@
         type="text"
         id="prompt"
         placeholder="Describe an image..."
-    >
+        <label for="seed">Seed:</label>
+
+        <input
+            type="number"
+            id="seed"
+            value="42"
+        >
 
     <button id="generateButton">Generate</button>
     <img id="resultImage">
     <script>
         const button = document.getElementById("generateButton");
         const promptInput = document.getElementById("prompt");
+        const seedInput = document.getElementById("seed");
         const resultImage = document.getElementById("resultImage");
 
         button.addEventListener("click", async function() {
             const prompt = promptInput.value;
+            const seed = Number(seedInput.value);
 
             const response = await fetch("/generate", {
                 method: "POST",
@@ -34,7 +42,7 @@
                 body: JSON.stringify({
                     prompt: prompt,
                     steps: 8,
-                    eed: 42
+                    seed: seed
                 })
             });
 
