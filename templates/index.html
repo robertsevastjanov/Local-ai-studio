@@ -22,10 +22,25 @@
         const button = document.getElementById("generateButton");
         const promptInput = document.getElementById("prompt");
 
-        button.addEventListener("click", function() {
+        button.addEventListener("click", async function() {
             const prompt = promptInput.value;
-            console.log(prompt);
-        });
+
+            const response = await fetch("/generate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    prompt: prompt,
+                    steps: 8,
+                    eed: 42
+                })
+            });
+
+        const data = await response.json();
+
+        console.log(data);
+});
     </script>
 </body>
 </html>
