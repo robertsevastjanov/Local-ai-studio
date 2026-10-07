@@ -21,7 +21,8 @@ def health():
 
 @app.post("/generate")
 def generate_image(request: GenerateRequest):
-    image_path = create_image()
+    image_path = create_image(request.seed)
+    
     return {
         "status": "completed",
         "prompt": request.prompt,
