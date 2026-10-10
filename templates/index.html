@@ -45,6 +45,7 @@
         button.addEventListener("click", async function() {
             button.textContent = "Generating...";
             button.disabled = true;
+            resultImage.style.display = "none";
             const prompt = promptInput.value;
             const seed = Number(seedInput.value);
             const steps = Number(stepsInput.value);
@@ -72,11 +73,12 @@
 
         errorMessage.textContent = "";
         resultImage.src = "/" + data.image_path;
+        resultImage.style.display = "block";
     
     } catch (error) {
             errorMessage.textContent = "Cannot connect to server";
             console.error(error);
-            
+
         } finally {
             button.textContent = "Generate";
             button.disabled = false;
