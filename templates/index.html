@@ -49,6 +49,8 @@
             const seed = Number(seedInput.value);
             const steps = Number(stepsInput.value);
 
+            try {
+
             const response = await fetch("/generate", {
                 method: "POST",
                 headers: {
@@ -62,8 +64,6 @@
             });
 
         const data = await response.json();
-        button.textContent = "Generate";
-        button.disabled = false;
 
         if (!response.ok) {
             errorMessage.textContent = data.detail[0].msg;
@@ -72,6 +72,15 @@
 
         errorMessage.textContent = "";
         resultImage.src = "/" + data.image_path;
+    
+    } catch (error) {
+            errorMessage.textContent = "Cannot connect to server";
+            console.error(error);
+            
+        } finally {
+            button.textContent = "Generate";
+            button.disabled = false;
+        }
         });
     </script>
 </body>
