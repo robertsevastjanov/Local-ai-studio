@@ -43,6 +43,8 @@
         const resultImage = document.getElementById("resultImage");
         const errorMessage = document.getElementById("errorMessage");
         button.addEventListener("click", async function() {
+            button.textContent = "Generating...";
+            button.disabled = true;
             const prompt = promptInput.value;
             const seed = Number(seedInput.value);
             const steps = Number(stepsInput.value);
@@ -60,6 +62,8 @@
             });
 
         const data = await response.json();
+        button.textContent = "Generate";
+        button.disabled = false;
 
         if (!response.ok) {
             errorMessage.textContent = data.detail[0].msg;
