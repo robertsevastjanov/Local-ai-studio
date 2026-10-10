@@ -62,10 +62,11 @@
         const data = await response.json();
 
         if (!response.ok) {
-            errorMessage.textContent = "Generation failed";
+            errorMessage.textContent = data.detail[0].msg;
             return;
         }
 
+        errorMessage.textContent = "";
         resultImage.src = "/" + data.image_path;
         });
     </script>
