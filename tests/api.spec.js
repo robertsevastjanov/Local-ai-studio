@@ -82,3 +82,27 @@ test('generation requests with the same seed use unique image paths', async ({ r
     console.log('First image:', firstBody.image_path);
     console.log('Second image:', secondBody.image_path);
 });
+
+test('GET /history returns saved generations as JSON', async ({ request }) => {
+
+    const response = await request.get('http://127.0.0.1:8000/history');
+
+    expect(response.status()).toBe(200);
+
+    const body = await response.json();
+
+    expect(body.status).toBe('ok');
+
+    expect(Array.isArray(body.generations)).toBe(true);
+
+    expect(body.count).toBe(body.generations.length);
+
+    for (const generation of body.generations) {
+        expect(typeof generation.id).toBe('number');
+        expect(typeof generation.prompt).toBe('string');
+        expect(typeof generation.steps).toBe('number');
+        expect(typeof generation.seed).toBe('number');
+        expect(typeof generation.image_path).toBe('string');
+        expect(typeof generation.created_at).toBe('string');
+    }
+});
