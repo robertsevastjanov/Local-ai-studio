@@ -6,6 +6,7 @@ from fastapi.responses import FileResponse
 
 app = FastAPI(title="Local AI Studio")
 app.mount("/images", StaticFiles(directory="images"), name="images")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/")
 def home():
     return FileResponse("templates/index.html")
