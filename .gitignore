@@ -4,3 +4,6 @@ __pycache__/
 .DS_Store
 images/
 generated.png
+node_modules/
+playwright-report/
+test-results/
