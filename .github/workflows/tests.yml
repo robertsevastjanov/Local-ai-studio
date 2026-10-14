@@ -115,8 +115,6 @@ jobs:
           cat php-server.log
           exit 1
 
-      - name: Run Playwright tests
-        run: npx playwright test --workers=1 --reporter=html
       - name: Start Nuxt server for Selenium
         run: |
           nohup npm run dev --prefix frontend -- --host 127.0.0.1 > nuxt.log 2>&1 &
@@ -128,6 +126,12 @@ jobs:
           done
           cat nuxt.log
           exit 1
+      - name: Verify SQLite database
+        run: |
+          test -f history.db
+          python -c "import sqlite3; db = sqlite3.connect('history.db'); print('SQLite records:', db.execute('SELECT COUNT(*) FROM generations').fetchone()[0]); db.close()"
+      - name: Run Playwright tests
+        run: npx playwright test --workers=1 --reporter=html
       - name: Check Chrome installation
         run: |
           google-chrome --version || chromium --version || chromium-browser --version
