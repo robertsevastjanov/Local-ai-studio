@@ -106,3 +106,28 @@ test('GET /history returns saved generations as JSON', async ({ request }) => {
         expect(typeof generation.created_at).toBe('string');
     }
 });
+
+test('PHP statistics API returns valid generation statistics', async ({ request }) => {
+  const response = await request.get('http://127.0.0.1:8001/stats.php');
+
+  expect(response.status()).toBe(200);
+
+  expect(response.headers()['content-type']).toContain('application/json');
+
+  const body = await response.json();
+
+  expect(body.status).toBe('ok');
+
+  expect(Number.isInteger(body.stats.total_generations)).toBe(true);
+  expect(body.stats.total_generations).toBeGreaterThanOrEqual(0);
+
+  expect(Number.isInteger(body.stats.unique_seeds)).toBe(true);
+  expect(body.stats.unique_seeds).toBeGreaterThanOrEqual(0);
+
+  expect(Number.isInteger(body.stats.generations_today)).toBe(true);
+  expect(body.stats.generations_today).toBeGreaterThanOrEqual(0);
+
+  expect(body.stats.unique_seeds).toBeLessThanOrEqual(body.stats.total_generations);
+
+  expect(body.stats.generations_today).toBeLessThanOrEqual(body.stats.total_generations);
+});

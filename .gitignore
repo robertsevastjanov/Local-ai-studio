@@ -7,3 +7,4 @@ generated.png
 node_modules/
 playwright-report/
 test-results/
+history.db

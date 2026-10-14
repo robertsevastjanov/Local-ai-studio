@@ -48,6 +48,27 @@ jobs:
           cat server.log
           exit 1
 
+    
+      - name: Check PHP and SQLite
+        run: |
+          php -v
+          php -m | grep -i pdo_sqlite
+
+      - name: Start PHP server
+        run: |
+          nohup php -S 127.0.0.1:8001 -t php-api > php-server.log 2>&1 &
+
+      - name: Wait for PHP API
+        run: |
+          for i in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8001/stats.php | grep -q '"status":"ok"'; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat php-server.log
+          exit 1
+
       - name: Run Playwright tests
         run: npx playwright test --workers=1 --reporter=html
       - name: Upload Playwright report
