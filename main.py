@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 from generator import create_image
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from database import init_db, save_generation, get_generations
+from database import init_db, save_generation_with_backup, get_postgres_generations
 
 app = FastAPI(title="Local AI Studio")
 init_db()
@@ -25,7 +25,7 @@ def health():
 @app.post("/generate")
 def generate_image(request: GenerateRequest):
     image_path = create_image(request.seed)
-    save_generation(
+    save_generation_with_backup(
         prompt=request.prompt,
         steps=request.steps,
         seed=request.seed,
@@ -42,7 +42,7 @@ def generate_image(request: GenerateRequest):
 
 @app.get("/history")
 def get_history():
-    generations = get_generations()
+    generations = get_postgres_generations()
 
     return {
         "status": "ok",
