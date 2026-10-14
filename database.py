@@ -135,5 +135,52 @@ def get_generations():
 
     return generations
 
+def deduct_credits(account_id, amount):
+    if amount <= 0:
+        raise ValueError("Credit amount must be positive")
+    with connect_postgres() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                UPDATE credit_accounts
+                SET balance = balance - %s
+                WHERE id = %s AND balance >= %s
+                RETURNING balance
+            """, (amount, account_id, amount))
+
+            result = cursor.fetchone()
+
+    return result[0] if result else None
+
+def save_generation_with_credits(
+    account_id, amount, prompt, steps, seed, image_path
+):
+    if amount <= 0:
+        raise ValueError("Credit amount must be positive")
+    with connect_postgres() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                UPDATE credit_accounts
+                SET balance = balance - %s
+                WHERE id = %s AND balance >= %s
+                RETURNING balance
+            """, (amount, account_id, amount))
+
+            result = cursor.fetchone()
+            if result is None:
+                raise ValueError("Insufficient credits or account not found")
+            
+            cursor.execute("""
+                INSERT INTO generations (prompt, steps, seed, image_path)
+                VALUES (%s, %s, %s, %s)
+                RETURNING id, created_at
+            """, (prompt, steps, seed, image_path))
+
+            generation_id, created_at = cursor.fetchone()
+    return {
+        "generation_id": generation_id,
+        "created_at": created_at.strftime("%Y-%m-%d %H:%M:%S"),
+        "remaining_credits": result[0]
+    }
+
 if __name__ == "__main__":
     init_db()
