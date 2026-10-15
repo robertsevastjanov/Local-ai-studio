@@ -427,3 +427,45 @@ textarea:focus, input:focus {
     padding-top: 40px;
   }
 }
+
+
+/* Hidden switch at the end of the Classic page */
+.secret-switch-footer {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 64px;
+  padding: 12px 24px;
+}
+
+.memory-mode-switch {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #d8b4fe;
+  border-radius: 7px;
+  color: white;
+  font-size: 15px;
+  text-decoration: none;
+  background: linear-gradient(180deg, #bd86f5, #6d28d9 55%, #21134c);
+  box-shadow: inset 0 1px 2px #ffffff88, 0 0 18px #a855f777;
+  opacity: 0.03;
+  transition: opacity .3s, transform .3s, box-shadow .3s;
+}
+
+.memory-mode-switch:hover,
+.memory-mode-switch:focus-visible {
+  opacity: 1;
+  transform: scale(1.2);
+  box-shadow: 0 0 25px #c084fcbb;
+  outline: 2px solid #67e8f9;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memory-mode-switch {
+    transition: none;
+  }
+}

@@ -61,6 +61,7 @@ async function generateImage() {
 </script>
 
 <template>
+
   <div class="studio">
     <NuxtRouteAnnouncer />
 
@@ -272,5 +273,16 @@ async function generateImage() {
       </div>
     </div>
   </div>
+
+  <footer class="secret-switch-footer">
+  <NuxtLink
+    to="/secret"
+    class="memory-mode-switch"
+    title="Open Memory Machine"
+    aria-label="Switch to Memory Machine"
+  >
+    ◈
+  </NuxtLink>
+  </footer>
 </template>
 
