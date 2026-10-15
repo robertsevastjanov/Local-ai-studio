@@ -91,10 +91,11 @@ button, input, textarea {
 }
 
 .panel {
-  background: #14151e;
-  border: 1px solid #ffffff13;
+  background: linear-gradient(145deg, #30204c 0%, #1a1830 48%, #10253e 100%);
+  border: 1px solid #a78bfa55;
   border-radius: 20px;
   padding: 28px;
+  box-shadow: inset 0 1px 0 #ffffff25, 0 14px 35px #08061666;
 }
 
 .section-heading {
@@ -162,20 +163,23 @@ textarea:focus, input:focus {
 .generate-button {
   width: 100%;
   padding: 17px;
-  border: none;
-  border-radius: 12px;
+  border: 1px solid #e4baff;
+  border-radius: 14px;
   color: white;
-  background: linear-gradient(120deg, #8555e9, #bb66e7);
+  background: linear-gradient(180deg, #d9a1ff 0%, #a855f7 43%, #6d28d9 52%, #4338ca 100%);
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 8px 30px #9855e533;
-  transition: transform .2s, box-shadow .2s, filter .2s;
+  box-shadow: inset 0 2px 2px #ffffff88, inset 0 -3px 5px #2e1065,
+              0 6px 0 #312064, 0 12px 28px #9855e555;
+  transition: transform .25s, box-shadow .25s, filter .25s;
+  transform-origin: center;
 }
 
 .generate-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 42px #9855e577;
-  filter: brightness(1.1);
+  transform: translateY(-4px) scale(1.07);
+  box-shadow: inset 0 2px 2px #ffffffaa, 0 7px 0 #312064,
+              0 18px 40px #a855f7aa;
+  filter: brightness(1.2) saturate(1.35);
 }
 
 .generate-button:active:not(:disabled) {
@@ -286,15 +290,17 @@ textarea:focus, input:focus {
 
 .image-card {
   overflow: hidden;
-  border: 1px solid #ffffff12;
+  border: 1px solid #a78bfa33;
   border-radius: 14px;
-  background: #151620;
-  transition: transform .25s, border-color .25s;
+  background: linear-gradient(145deg, #30204c, #151620 65%, #12243d);
+  box-shadow: inset 0 1px 0 #ffffff20, 0 6px 18px #08061644;
+  transition: transform .3s, border-color .3s, box-shadow .3s;
 }
 
 .image-card:hover {
-  transform: translateY(-4px);
-  border-color: #a87afa66;
+  transform: translateY(-7px);
+  border-color: #c084fc;
+  box-shadow: 0 14px 35px #a855f766, 0 0 20px #8b5cf744;
 }
 
 .image-container {
@@ -312,7 +318,7 @@ textarea:focus, input:focus {
 }
 
 .image-card:hover .image-container img {
-  transform: scale(1.06);
+  transform: scale(1.15);
 }
 
 .unavailable {

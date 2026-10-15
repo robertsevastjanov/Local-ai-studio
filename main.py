@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from generator import create_image
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 from database import init_db, save_generation_with_backup, get_postgres_generations
 from pathlib import Path
 
@@ -10,10 +9,6 @@ app = FastAPI(title="Local AI Studio")
 Path("images").mkdir(parents=True, exist_ok=True)
 init_db()
 app.mount("/images", StaticFiles(directory="images"), name="images")
-app.mount("/static", StaticFiles(directory="static"), name="static")
-@app.get("/")
-def home():
-    return FileResponse("templates/index.html")
 
 class GenerateRequest(BaseModel):
     prompt: str = Field(min_length=10, max_length=1000)

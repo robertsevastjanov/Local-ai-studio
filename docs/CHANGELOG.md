@@ -27,3 +27,22 @@
 ### Next
 - Move the main page into pages/index.vue.
 - Split the interface into reusable Vue components.
+
+## 2026-10-15 — Nuxt Migration and Y2K UI
+
+### Changed
+- Moved the Nuxt home page to `frontend/app/pages/index.vue`.
+- Simplified `frontend/app/app.vue` to use `NuxtPage`.
+- Updated the interface with glossy Y2K gradients, 3D buttons and stronger image hover effects.
+- Updated Playwright configuration to use `localhost`.
+
+### Removed
+- Legacy FastAPI HTML route `/` and static mount `/static`.
+- Legacy `templates/index.html` and `static/style.css`.
+
+### Verification
+- FastAPI route inspection: `/health`, `/generate`, `/history`, `/images` present.
+- Legacy `/` and `/static` routes absent.
+- Playwright gallery tests: 3 passed.
+- Nuxt UI and new CSS visually checked.
+- Full image generation was not retested in this change.
