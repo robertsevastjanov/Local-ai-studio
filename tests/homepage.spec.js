@@ -1,6 +1,8 @@
 const { test, expect } = require('@playwright/test');
 
-const URL = 'http://[::1]:3000/';
+const URL = process.env.CI
+  ? 'http://127.0.0.1:3000/'
+  : 'http://[::1]:3000/';
 
 test('homepage displays correct title', async ({ page }) => {
     await page.goto(URL);
