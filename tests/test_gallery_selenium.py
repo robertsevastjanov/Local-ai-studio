@@ -23,7 +23,7 @@ try:
     # Show the actual heading text for debugging.
     print("Actual heading:", repr(heading.text))
     # Check that the heading contains the expected text.
-    assert heading.text == "Local AI Studio"    
+    assert heading.text == "Create without limits."    
     print("PASS: Gallery heading is correct")
     # Wait until the gallery heading becomes visible.
     gallery_heading = WebDriverWait(driver, 10).until(
