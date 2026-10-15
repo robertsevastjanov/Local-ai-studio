@@ -4,8 +4,10 @@ from generator import create_image
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from database import init_db, save_generation_with_backup, get_postgres_generations
+from pathlib import Path
 
 app = FastAPI(title="Local AI Studio")
+Path("images").mkdir(parents=True, exist_ok=True)
 init_db()
 app.mount("/images", StaticFiles(directory="images"), name="images")
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -24,7 +26,11 @@ def health():
 
 @app.post("/generate")
 def generate_image(request: GenerateRequest):
-    image_path = create_image(request.seed)
+    image_path = create_image(
+        seed=request.seed,
+        prompt=request.prompt,
+        steps=request.steps
+    )
     save_generation_with_backup(
         prompt=request.prompt,
         steps=request.steps,

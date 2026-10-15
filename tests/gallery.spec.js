@@ -35,3 +35,20 @@ test('gallery handles missing images', async ({ page }) => {
     page.getByText('Image unavailable').first()
   ).toBeVisible();
 });
+
+test('gallery loads a real image successfully', async ({ page }) => {
+  await page.goto(FRONTEND_URL);
+
+  // Find the newest generated image.
+  const image = page.locator('img').first();
+
+  // Check that the image exists.
+  await expect(image).toBeVisible();
+
+  // Check that the browser actually loaded its pixels.
+  await expect.poll(async () => {
+    return image.evaluate((img) =>
+      img.complete && img.naturalWidth > 0
+    );
+  }).toBe(true);
+});
