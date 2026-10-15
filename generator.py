@@ -1,8 +1,6 @@
+import os
 from pathlib import Path
 from uuid import uuid4
-
-import torch
-from diffusers import StableDiffusionPipeline
 
 MODEL_ID = "stable-diffusion-v1-5/stable-diffusion-v1-5"
 
@@ -12,6 +10,9 @@ def get_pipeline():
     global pipeline
 
     if pipeline is None:
+        import torch
+        from diffusers import StableDiffusionPipeline
+        
         pipeline = StableDiffusionPipeline.from_pretrained(
             MODEL_ID,
             dtype=torch.float16,
@@ -24,6 +25,18 @@ def get_pipeline():
     return pipeline
 
 def create_image(seed, prompt, steps=10):
+    Path("images").mkdir(parents=True, exist_ok=True)
+    image_path = f"images/generated_{seed}_{uuid4().hex}.png"
+
+    if os.getenv("CI_MOCK_GENERATION") == "1":
+        from PIL import Image
+
+        image = Image.new("RGB", (512, 512), (90, 45, 145))
+        image.save(image_path)
+        return image_path
+
+    import torch
+
     pipe = get_pipeline()
 
     generator = torch.Generator(device="cpu").manual_seed(seed)
@@ -34,10 +47,6 @@ def create_image(seed, prompt, steps=10):
         height=512,
         width=512,
     ).images[0]
-
-    Path("images").mkdir(parents=True, exist_ok=True)
-    
-    image_path = f"images/generated_{seed}_{uuid4().hex}.png"
     
     image.save(image_path)
     

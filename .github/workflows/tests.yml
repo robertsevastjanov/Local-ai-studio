@@ -24,6 +24,7 @@ jobs:
           --health-retries 5
 
     env:
+      CI_MOCK_GENERATION: "1"
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/local_ai_studio
 
     steps:
