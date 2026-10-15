@@ -76,23 +76,23 @@ try:
             ) >= api_count
         )
 
-# Wait until all displayed images finish loading or fail.
-if api_count > 0:
-    WebDriverWait(driver, 15).until(
-        lambda d: all(
-            d.execute_script("return arguments[0].complete;", img)
-            for img in d.find_elements(By.CSS_SELECTOR, "img")
+    # Wait until all displayed images finish loading or fail.
+    if api_count > 0:
+        WebDriverWait(driver, 15).until(
+            lambda d: all(
+                d.execute_script("return arguments[0].complete;", img)
+                for img in d.find_elements(By.CSS_SELECTOR, "img")
+            )
         )
-    )
 
-images = driver.find_elements(By.CSS_SELECTOR, "img")
+    images = driver.find_elements(By.CSS_SELECTOR, "img")
 
-# Print image URLs and loading status for debugging.
-for img in images:
-    print("Image URL:", img.get_attribute("src"))
-    print("Natural width:", driver.execute_script(
-        "return arguments[0].naturalWidth;", img
-    ))
+    # Print image URLs and loading status for debugging.
+    for img in images:
+        print("Image URL:", img.get_attribute("src"))
+        print("Natural width:", driver.execute_script(
+            "return arguments[0].naturalWidth;", img
+        ))
 
     # Count successfully loaded images.
     loaded_images = 0
